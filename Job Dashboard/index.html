@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+</head>
+<body>
+    <center>
+        <h1>Registration Form</h1>
+        <form action="/signupkaro" method="post">
+            <input type="text" placeholder="Enter your name" name="txtname" required><br><br>
+            <input type="email" placeholder="Enter your email" name="txtemail" required><br><br>
+            <input type="password" placeholder="Enter your password" name="txtpass" required><br><br>
+            <button type="submit">Add User</button>
+        </form>
+        
+        <br><hr><br>
+        <form action="/update" method="post">
+            <input type="number" placeholder="Enter User ID" name="id" required><br><br>
+            <input type="text" placeholder="Enter new name" name="txtname"><br><br>
+            <input type="email" placeholder="Enter new email" name="txtemail"><br><br>
+            <input type="password" placeholder="Enter new password" name="txtpass"><br><br>
+            <button type="submit">Update User</button>
+        </form>
+        
+        <br><hr><br>
+        <form action="/delete" method="post">
+            <input type="number" placeholder="Enter User ID to Delete" name="id" required><br><br>
+            <button type="submit">Delete User</button>
+        </form>
+    </center>
+</body>
+</html>

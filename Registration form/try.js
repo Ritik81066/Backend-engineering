@@ -7,8 +7,6 @@ app.get("/adduser",(req,res)=>{
 })
 app.post("/adduser",(req,res)=>{
     let {username,useremail,userpassword} = req.body;
-    //default type of data sent by a form is url-encoded
-    //express.urlEncoded is the function used to parse url-encoded to object type
     console.log(username,useremail,userpassword)
     let newUser={
         name:username,

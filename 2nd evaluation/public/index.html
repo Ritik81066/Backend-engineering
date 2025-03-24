@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        * { 
+            font-family: Arial, sans-serif; 
+            margin: 0; padding: 0; 
+            box-sizing: border-box; 
+        }
+        .container { 
+            width: 50%;
+            margin: 50px auto; 
+            padding: 20px; border: 
+            2px solid black; 
+        }
+        input { 
+            width: 80%; 
+            padding: 8px; 
+            font-size: 16px; 
+        }
+        button { 
+            padding: 8px; 
+            margin-left: 5px; 
+            cursor: pointer; 
+        }
+        ul { 
+            margin-top: 20px; 
+        }
+        li { 
+            display: flex; 
+            justify-content: space-between; 
+            margin: 5px 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Job DashBoad</h2>
+        <input type="text" id="taskInput" placeholder="Enter Your Name">
+        <button onclick="addTask()">Add</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        async function fetchTasks() {
+            let response = await fetch("/tasks");
+            let data = await response.json();
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+            data.tasks.forEach(task => {
+                let li = document.createElement("li");
+                li.innerHTML = `${task} 
+                    <button onclick="updateTask('${task}')">Edit</button> 
+                    <button onclick="deleteTask('${task}')">X</button>`;
+                taskList.appendChild(li);
+            });
+        }
+
+        async function addTask() {
+            let task = document.getElementById("taskInput").value;
+            await fetch("/addTask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ task }) });
+            document.getElementById("taskInput").value = "";
+            fetchTasks();
+        }
+
+        async function deleteTask(task) {
+            await fetch("/deleteTask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ task }) });
+            fetchTasks();
+        }
+
+        async function updateTask(oldTask) {
+            let newTask = prompt("Update task:", oldTask);
+            if (newTask) {
+                await fetch("/updateTask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ oldTask, newTask }) });
+                fetchTasks();
+            }
+        }
+
+        fetchTasks();
+    </script>
+</body>
+</html>
