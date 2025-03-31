@@ -27,6 +27,26 @@ app.get('/',(req,res)=>{
     res.status(200).send("Hello Welcome to Home Page");
 })
 
+app.delete('/user/:id', async(req,resp)=>{
+    let {id}=req.params;
+    await user.findByIdAndDelete(id);
+    resp.send("user deleted");
+})
+app.put("/users/:id",async(req,res)=>{
+    let {id} =req.params;
+    let {name,email,password}=req.body;
+    let updateUser=await UserActivation.findById(id);
+   // {
+        //name:"Nitesh",
+        //email:"bubh@yftc.com",
+        //password:"qwerty"
+    // }
+    updateUser.name=name;
+    updateUser.password=password;
+    updateUser.email=email;
+    await updateUser.save();
+    res.send("User Updated");
+})
 mongoose.connect('mongodb://localhost:27017/Mongoose-1')
 .then(()=>console.log("Connected!!"))
 .catch((err) => console.error("Connection error:", err));
@@ -34,3 +54,6 @@ mongoose.connect('mongodb://localhost:27017/Mongoose-1')
 app.listen(PORT,()=>{
     console.log(`server listening at http://localhost:${PORT}`);
 })
+
+/*
+*/
