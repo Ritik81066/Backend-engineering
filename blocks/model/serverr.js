@@ -11,4 +11,4 @@ let blogSchema=new mongoose.Schema({
         default:Date.now()
     }
 })
-mongoose.model("Blogs",blogSchema)
+module.exports=mongoose.model("Blogs",blogSchema)

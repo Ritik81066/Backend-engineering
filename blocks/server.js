@@ -2,15 +2,21 @@ const express=require("express");
 const app=express()
 const mongoose=require("mongoose");
 const User=require("./model/user")
-// const Blog=require("./model/blogs")
-//const userRoutes=require("./routes/userRoute");
+const Blog=require("./model/serverr")
+const userRoutes=require("./route/userroute");
 app.use(express.json());
 app.set('view engine', 'hbs');
 //app.use("/users",userRoutes)
-app.get("/",(req,res)=>{
-  res.render("new",{
-    name:"ritik",
-    email:"abc@gmail.com"
+// app.get("/",(req,res)=>{
+//   res.render("new",{
+//     name:"ritik",
+//     email:"abc@gmail.com"
+//   });
+// })
+app.get('/',async(req,resp)=>{
+  let allblogss=await Blog.find();
+  resp.render("blogs",{
+    data:allblogss
   });
 })
 
