@@ -13,6 +13,8 @@ app.set('view engine', 'hbs');
 //     email:"abc@gmail.com"
 //   });
 // })
+
+//render blogs page
 app.get('/',async(req,resp)=>{
   let allblogss=await Blog.find();
   resp.render("blogs",{
@@ -20,8 +22,17 @@ app.get('/',async(req,resp)=>{
   });
 })
 
-app.post("/users",async(req,res)=>{
-  let {name,email,password}=req.body;
+//render users page
+app.get('/abc',async(req,resp)=>{
+  let allusers=await User.find()
+  resp.render("user",{
+    data:allusers
+  })
+})
+
+//add user
+app.get("/addusers",async(req,res)=>{
+  let {name,email,password}=req.query;
   let newUser=new User({
     name:name,
     email:email,
@@ -43,9 +54,9 @@ app.get("/users/:id",async(req,res)=>{
   res.send(oneUser)
 })
 //delete a user
-app.delete("/user/id",async(req,res)=>{
+app.get("/user/:id",async(req,res)=>{
   let {id}=req.params;
-  await User.findByIdAndDelete()
+  await User.findByIdAndDelete(id)
   res.send("User deleted")
 })
 //update a user
