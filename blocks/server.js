@@ -42,6 +42,14 @@ app.get("/addusers",async(req,res)=>{
   res.send("User Added")
 })
 
+app.get('/blogs/:id',async(req,res)=>{
+  let {id}=req.params;
+  let blog=await Blog.findById(id);
+  res.render("blogs",{
+      Blog:blog
+  });
+})
+
 //read all users
 app.get("/users",async(req,res)=>{
   let allUsers=await User.find();
