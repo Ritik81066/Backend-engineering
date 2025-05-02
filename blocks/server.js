@@ -6,7 +6,32 @@ const Blog=require("./model/serverr")
 const userRoutes=require("./route/userroute");
 app.use(express.json());
 app.set('view engine', 'hbs');
-//app.use("/users",userRoutes)
+app.use("/users",userRoutes)
+app.use(express.urlencoded({ extended: true }));
+//opens the form in hbs
+app.get('/form',(req,resp)=>{
+  resp.render('form');
+})
+//submit button of form
+app.post('/submit',async(req,resp)=>{
+  const { name, email } = req.body;
+  await User.create({ name, email });
+  resp.send("User added successfully!");
+  // resp.render('form', { message: 'User added successfully!' });
+  //resp.redirect("/users");
+})
+
+
+
+
+
+
+
+
+
+
+
+//render user pages
 // app.get("/",(req,res)=>{
 //   res.render("new",{
 //     name:"ritik",
@@ -23,12 +48,12 @@ app.get('/',async(req,resp)=>{
 })
 
 //render users page
-app.get('/abc',async(req,resp)=>{
-  let allusers=await User.find()
-  resp.render("user",{
-    data:allusers
-  })
-})
+// app.get('/abc',async(req,resp)=>{
+//   let allusers=await User.find()
+//   resp.render("user",{
+//     data:allusers
+//   })
+// })
 
 //add user
 app.get("/addusers",async(req,res)=>{
@@ -53,7 +78,8 @@ app.get('/blogs/:id',async(req,res)=>{
 //read all users
 app.get("/users",async(req,res)=>{
   let allUsers=await User.find();
-  res.send(allUsers);
+  //res.send(allUsers);
+  res.render('user',{ users: allUsers });
 })
 //read one user
 app.get("/users/:id",async(req,res)=>{
